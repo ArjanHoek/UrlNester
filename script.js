@@ -72,21 +72,24 @@ const data = [
   },
 ];
 
-const dataPerLevel = {};
-const nestedData = [];
+const sortDataPerLevel = data => {
+  return data.reduce((dataPerLevel, item) => {
+    const level = item.url.slice(1).split('/').length;
 
-const getLevel = ({ url }) => url.split('/').length;
-
-const sortDataPerLevel = (data, level = 1) => {
-  data.forEach(item => {
-    const level = getLevel(item);
     if (dataPerLevel[level]) {
       dataPerLevel[level].push(item);
     } else {
       dataPerLevel[level] = [item];
     }
-  });
+
+    return dataPerLevel;
+  }, {});
 };
 
-sortDataPerLevel(data);
+const nestData = data => {
+  return data;
+};
+
+const dataPerLevel = sortDataPerLevel(data);
 console.log(dataPerLevel);
+const nestedData = nestData(dataPerLevel);
